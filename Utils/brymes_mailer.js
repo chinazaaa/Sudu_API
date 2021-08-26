@@ -37,7 +37,7 @@ async function sendMail(config) {
         console.log("Config", respE.config);
       } else {
         // Something happened in setting up the request that triggered an Error
-        console.log("Brymes Mailer error from Saloney");
+        console.log("Brymes Mailer error from Sudu");
         console.log("Error", respE.message);
         console.log("Config", respE.config);
       }

@@ -13,7 +13,6 @@ const ChangePasswordCustomer = async (req, res) => {
 
      // const user = await getUserById(userId)
      const user = await CustomerModel.findById(req.user.id);
-      //const user = await SalonOwnerModel.findById({_id: id})
       console.log(user)
       
       if (!user)

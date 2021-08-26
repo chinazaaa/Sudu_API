@@ -47,7 +47,6 @@ module.exports.OtpResendCustomer = async (req, res) => {
     
     const email = req.body;
     let customer = await CustomerModel.findOne({ email });
-    //let user = await SalonOwnerModel.findOne({'local.email': email });
    // console.log(user)
 
     if (!customer) {
@@ -62,7 +61,7 @@ module.exports.OtpResendCustomer = async (req, res) => {
         const config = {
             data: JSON.stringify({
                 subject: "ONE TIME PASSWORD",
-                sender: "no-reply@saloney.com",
+                sender: "no-reply@sudu.com",
                 recipients: [customer.email],
                 html_body: `<h2> Your email verification code is ${customer.otp}</h2>`,
             }),

@@ -4,7 +4,7 @@ const response = require("../Utils/response");
 const random = require("../Utils/random");
 const { body, validationResult } = require("express-validator");
 const CustomerModel = require("../Models/customerModel");
-const SalonOwnerModel = require("../Models/salonOwner");
+const StoreOwnerModel = require("../Models/storeOwner");
 const { CLIENT_URL } = process.env;
 const brymes_mailer = require("../Utils/brymes_mailer");
 
@@ -20,7 +20,7 @@ module.exports.registerCustomer = async (req, res) => {
 
   try {
     let customer = await CustomerModel.findOne({ email });
-    let user = await SalonOwnerModel.findOne({ email });
+    let user = await StoreOwnerModel.findOne({ email });
     let dup_username = await CustomerModel.findOne({ userName });
     if (customer || user) {
       response.errorResMsg(
@@ -59,7 +59,7 @@ module.exports.registerCustomer = async (req, res) => {
     const config = {
       data: JSON.stringify({
         subject: "ONE TIME PASSWORD",
-        sender: "no-reply@saloney.com",
+        sender: "no-reply@sudu.com",
         recipients: [email],
         html_body: `<h2> Your email verification code is ${otp}</h2>`,
       }),

@@ -1,12 +1,12 @@
 const express = require('express');
-const { forgotPasswordSalon} = require('../Controllers/forgotPasswordSalon');
+const { forgotPasswordStore} = require('../Controllers/forgotPasswordStore');
 const { forgotPasswordCustomer} = require('../Controllers/forgotPasswordCustomer');
 const router = express.Router();
 const { body } = require("express-validator");
 
-//salon forgot password route
+//store forgot password route
 
-router.put('/salon', forgotPasswordSalon);
+router.put('/store', forgotPasswordStore);
 
 //customer forgot password route
 router.put('/customer', forgotPasswordCustomer);

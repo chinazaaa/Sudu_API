@@ -15,7 +15,6 @@ module.exports.forgotPasswordCustomer = async (req, res) => {
 	 
     const email = req.body.email;
     let customer = await CustomerModel.findOne({email:email});
-   // let user = await SalonOwnerModel.findOne({'local.email': email });
 console.log(customer)
 
     if (!customer) {
@@ -31,7 +30,7 @@ console.log(customer)
         const config = {
             data: JSON.stringify({
                 subject: "ONE TIME PASSWORD",
-                sender: "no-reply@saloney.com",
+                sender: "no-reply@sudu.com",
                 recipients: [customer.email],
                 html_body: `<h2> Your email verification code is ${customer.otp}</h2>`,
             }),

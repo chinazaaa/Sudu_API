@@ -7,11 +7,12 @@ const serviceSchema = mongoose.Schema({
 	price:{type: String, required: true},
 	description:{type: String, required: true},
 	category:{type: String, required: true},
+	options:{type: String},
 	isPublished: { type: Boolean, default: false },
    image: { type: String, required: true},
-      salon :{ 
+      store :{ 
       	type: Schema.Types.ObjectId, 
-      	ref: "salon" },
+      	ref: "store" },
 		  cloudinary_id: {type: String},
 },
 { timestamps: true});

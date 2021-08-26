@@ -1,8 +1,8 @@
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
-  cloud_name: 'saloney',
-  api_key: '996346525813742',
-  api_secret: 'Pb_HyYWpeDDJEquk4d-z8FzJQYo',
+  cloud_name: 'sudu', 
+  api_key: '344875191948825', 
+  api_secret: 'HC2xo0amXC9HBzBBVBPYQnetCG4' 
 });
 
 // exports.uploads = (file, folder) => {

@@ -1,16 +1,16 @@
 const express = require('express');
-const resendOtp = require('../Controllers/confirmationSalon');
+const resendOtp = require('../Controllers/confirmationStore');
 const resendOtpCustomer = require('../Controllers/confirmationCustomer');
-const ConfirmSalon = require('../Controllers/confirmationSalon');
+const ConfirmStore = require('../Controllers/confirmationStore');
 const ConfirmCustomer = require('../Controllers/confirmationCustomer');
 const router = express.Router();
 
 
-//Salon token Confirmation route
-router.post('/salon', ConfirmSalon.ConfirmSalon)
+//store token Confirmation route
+router.post('/store', ConfirmStore.ConfirmStore)
 
 //resend otp
-router.post('/resend/otp/salon', resendOtp.OtpResendSalon)
+router.post('/resend/otp/store', resendOtp.OtpResendStore)
 
 
 //resend otp for customer

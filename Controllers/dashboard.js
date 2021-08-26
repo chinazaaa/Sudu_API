@@ -6,20 +6,17 @@ const { successResMsg } = require("../Utils/response");
 
 exports.dashboard = async (req,res) => {
     try {
-        // let salon = await Bookings.distinct("customer",{salon:req.params.id})
-        // if (!salon) {
-        //     return res.status(404).json({ message: 'Salon not found' })
-        //  }
-        //  console.log(salon.length)
+       
+       
         
         //get all customers
-        const allCustomers = await Bookings.distinct("customer",{salon:req.params.id})
+        const allCustomers = await Bookings.distinct("customer",{store:req.params.id})
         //get all orders
-        const allOrders = await Bookings.distinct("bookingID", {salon:req.params.id})
+        const allOrders = await Bookings.distinct("bookingID", {store:req.params.id})
         //get all published services
-        const publishedServices = await Services.find({isPublished:true,salon:req.params.id})
+        const publishedServices = await Services.find({isPublished:true,store:req.params.id})
         //get all unpublished services
-        const unPublishedServices = await Services.find({isPublished:false,salon:req.params.id})
+        const unPublishedServices = await Services.find({isPublished:false,store:req.params.id})
 
         return  successResMsg(
             res,

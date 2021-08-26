@@ -1,15 +1,15 @@
-const SalonOwnerModel = require("../Models/salonOwner");
+const StoreOwnerModel = require("../Models/storeOwner");
 const CustomerModel = require("../Models/customerModel");
 
 const brymes_mailer = require("../Utils/brymes_mailer");
 
 const { errorResMsg, successResMsg } = require('../Utils/response');
-module.exports.ConfirmSalon = async (req, res) => {
+module.exports.ConfirmStore = async (req, res) => {
     const otp = req.body.otp;
 
 
     // Find a matching token
-    const verify = await SalonOwnerModel.findOne({ 'local.otp': otp });
+    const verify = await StoreOwnerModel.findOne({ 'local.otp': otp });
     console.log(otp)
     if (!verify) {
         return errorResMsg(
@@ -45,11 +45,11 @@ module.exports.ConfirmSalon = async (req, res) => {
     }
 }
 
-module.exports.OtpResendSalon = async (req, res) => {
+module.exports.OtpResendStore = async (req, res) => {
     
     const email = req.body.email;
     //let customer = await CustomerModel.findOne({ email });
-    let user = await SalonOwnerModel.findOne({'local.email': email });
+    let user = await StoreOwnerModel.findOne({'local.email': email });
    // console.log(user)
 
     if (!user) {
@@ -64,7 +64,7 @@ module.exports.OtpResendSalon = async (req, res) => {
         const config = {
             data: JSON.stringify({
                 subject: "ONE TIME PASSWORD",
-                sender: "no-reply@saloney.com",
+                sender: "no-reply@sudu.com",
                 recipients: [user.identifier],
                 html_body: `<h2> Your email verification code is ${user.local.otp}</h2>`,
             }),

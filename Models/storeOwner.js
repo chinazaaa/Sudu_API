@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
-const salonOwnerSchema = new mongoose.Schema({
-  identifier: { type: String, required: true, unique: true },
+const storeOwnerSchema = new mongoose.Schema({
+  identifier: { type: String, required: true },
   local: {
     phone: { type: Number, required: true },
-    userName: { type: String, required: true, unique: true },
-    email: { type: String, unique: true, required: true },
+    userName: { type: String, required: true},
+    email: { type: String},
     otp: { type: Number },
     api_token: { type: String },
     isActive: { type: Boolean, default: 1 },
@@ -13,13 +13,13 @@ const salonOwnerSchema = new mongoose.Schema({
     password: { type: String, required: true },
     //owner_ref_id: { type: mongoose.Schema.Types.ObjectId, ref: "service" },
     customer: { type: Schema.Types.ObjectId, ref: "customer" },
-    salon: {type: Schema.Types.ObjectId, ref: "salon"},
-    userRole: { type: String, default: "ROL-SALON" },
+    store: {type: Schema.Types.ObjectId, ref: "store"},
+    userRole: { type: String, default: "ROL-STORE" },
     
   },
   avatar: {
     type: String,
-    default: "https://res.cloudinary.com/saloney/image/upload/v1623862747/SaloneyLogo.png",
+    default: "https://res.cloudinary.com/sudu/image/upload/v1629976631/sudu_logo_hh2la3.png",
     filename: String
   },
   // cloudinary_id: {
@@ -34,13 +34,8 @@ const salonOwnerSchema = new mongoose.Schema({
 },
   { timestamps: true });
 
-// salonOwnerSchema.virtual('id').get(function() {
-//   return this._id.toHexString();
-// })
 
 
-// salonOwnerSchema.set('toJSON', {
-//   virtuals: true
-// })
 
-module.exports = mongoose.model('salonOwner', salonOwnerSchema);
+
+module.exports = mongoose.model('storeOwner', storeOwnerSchema);

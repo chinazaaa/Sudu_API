@@ -1,23 +1,22 @@
 //const bCrypt = require("bcryptjs");
 //const random = require("../Utils/random");
-const SalonOwnerModel = require("../Models/salonOwner");
+const StoreOwnerModel = require("../Models/storeOwner");
 //const response = require("../Utils/response");
 const { successResMsg } = require('../Utils/response');
 const { comparePassword, hashPassword } = require('../Utils/password')
 
 
-const changePasswordSalon = async (req, res) => {
+const changePasswordStore = async (req, res) => {
     try {
       const { oldPassword, newPassword } = req.body;
       //const { id } = req.params;
 
      // const user = await getUserById(userId)
-     const user = await SalonOwnerModel.findById(req.user.id);
-      //const user = await SalonOwnerModel.findById({_id: id})
+     const user = await StoreOwnerModel.findById(req.user.id);
       console.log(user)
    
       if (!user)
-      return res.status(404).json({message: "Salon not found"}) 
+      return res.status(404).json({message: "Store not found"}) 
 
       const isValid = await comparePassword(oldPassword, user.local.password);
       console.log(isValid);
@@ -38,6 +37,6 @@ const changePasswordSalon = async (req, res) => {
 };
 
 module.exports = {
-    changePasswordSalon,
+    changePasswordStore,
 }
  

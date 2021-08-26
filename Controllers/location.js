@@ -1,4 +1,4 @@
-const Salon = require("../Models/salon");
+const Store = require("../Models/store");
 
     //See just leave this Function like that. Scroll down for information
     function distance(lat1, lon1, lat2, lon2, unit) {
@@ -24,18 +24,17 @@ const Salon = require("../Models/salon");
       return dist;
     }
   
-    //This is the data used, i.e. Your Salon coordinates
-    exports.getSalonByLocation = async (req, res, next) => {
+    //This is the data used, i.e. Your store coordinates
+    exports.getStoreByLocation = async (req, res, next) => {
         try {
-          //const salonData = await Salon.find().select({"location.coordinates":1});
-          const salonData = await Salon.find();
-          if (!salonData) {
-            return res.status(404).json({ message: 'Salon not found' })
+          const storeData = await Store.find();
+          if (!storeData) {
+            return res.status(404).json({ message: 'Store not found' })
           }
 
   
   
-    const salonLocation = [];
+    const storeLocation = [];
   
     //FIXME This is where the Customer location(latitude and longitude) is going to be
     // const poslat = 3.8553506;
@@ -43,21 +42,21 @@ const Salon = require("../Models/salon");
       const poslat = req.params.lat;
     const poslng = req.params.long;
   
-    for (var i = 0; i < salonData.length; i++) {
-      // if this location is within 20.0KM of the customer, add it to the salonLocation array
-      if (distance(poslat, poslng, salonData[i].location.coordinates[0], salonData[i].location.coordinates[1], "K") <= 20.0) {
-        salonLocation.push(salonData[i]);
+    for (var i = 0; i < storeData.length; i++) {
+      // if this location is within 20.0KM of the customer, add it to the storeLocation array
+      if (distance(poslat, poslng, storeData[i].location.coordinates[0], storeData[i].location.coordinates[1], "K") <= 20.0) {
+        storeLocation.push(storeData[i]);
       }
     };
-    if(salonLocation.length <= 0) {
-      return res.status(404).json({message: 'No Salon found in your area'})
+    if(storeLocation.length <= 0) {
+      return res.status(404).json({message: 'No Store found in your area'})
       }
-    return res.json({salonLocation});
+    return res.json({storeLocation});
   }
-         // return res.json({ salonData})
+         // return res.json({ storeData})
          catch (error) {
             console.log(error)
-          return res.status(404).json({ message: 'Salon not found' })
+          return res.status(404).json({ message: 'Store not found' })
         }
       }
       //console.log(runDistance());

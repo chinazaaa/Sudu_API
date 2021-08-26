@@ -2,13 +2,13 @@ const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
   {
-    salon: {
+    store: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "salon",
+      ref: "store",
       required: true,
     },
-    salonName: {type: String},
-   salonPhone: {type: String},
+    storeName: {type: String},
+   storePhone: {type: String},
     services: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -16,6 +16,7 @@ const bookingSchema = new mongoose.Schema(
       },
     ],
     serviceName: {type: Array},
+    serviceOptions: {type: Array},
     servicePrice: {type: Array},
     customer: {
       type: mongoose.Schema.Types.ObjectId,
@@ -44,7 +45,7 @@ const bookingSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    completedBySalon: {
+    completedByStore: {
       type: Boolean,
       default: false,
     },

@@ -1,7 +1,7 @@
 const { successResMsg } = require('../Utils/response');
 const Booking = require("../Models/BookingModel");
 const customerModel = require("../Models/customerModel");
-const salonModel = require("../Models/salon");
+const storeModel = require("../Models/store");
 const serviceModel = require("../Models/serviceModel");
 
 //exports.createbooking
@@ -26,15 +26,16 @@ exports.createBooking = async (req, res, next) => {
   try {
 
     const customer = await customerModel.findById(req.params.customerId).populate();
-    const salon = await salonModel.findById(req.params.salonId).populate();
+    const store = await storeModel.findById(req.params.storeId).populate();
     
     // populating service name and price
     const serviceNameArray = [];
     const servicePriceArray = [];
+    
   
     for (let i = 0; i < req.body.serviceIds.length; i++) {
-     let eachSalon = req.body.serviceIds[i] 
-        const service = await serviceModel.findById(eachSalon).populate();
+     let eachStore = req.body.serviceIds[i] 
+        const service = await serviceModel.findById(eachStore).populate();
         console.log(service.service)
         serviceNameArray.push(service.service);
         servicePriceArray.push(service.price);
@@ -45,18 +46,18 @@ exports.createBooking = async (req, res, next) => {
     if (customer.userRole != "ROL-CUSTOMER")
       return res.status(403).json({ message: "Unauthorized" });
     const booking = await Booking.create({
-      salon: req.params.salonId,
+      store: req.params.storeId,
       services: req.body.serviceIds,
       bookingDate: req.body.bookingDate,
       customer: req.params.customerId,
       customerName: customer.userName,
       customerPhone: customer.phone,
       customerAvatar: customer.avatar,
-      salonName: salon.nameOfSalon,
-      salonPhone: salon.phone,
+      storeName: store.nameOfStore,
+      storePhone: store.phone,
       serviceName: serviceNameArray,
       servicePrice: servicePriceArray,
-      salon: req.params.salonId,
+      store: req.params.storeId,
       bookingID: makeBody(4)
       
       // date: req.body.datetime
@@ -216,13 +217,13 @@ exports.completedByCustomer = async (req, res) => {
 };
 
 
-exports.completedBySalon = async (req, res) => {
+exports.completedByStore = async (req, res) => {
 
   try {
     const booking = await Booking.findById(req.params.id);
     console.log(booking)
-    booking.completedBySalon = true
-    console.log(booking.completedBySalon)
+    booking.completedByStore = true
+    console.log(booking.completedByStore)
 
     await booking.save(function (err) {
       if (err) { return response.status(500).send({ msg: err.message }); }
@@ -290,10 +291,10 @@ exports.getCustomerCompletedOrders = async (req, res, next) => {
 };
 
 
-exports.getSalonCompletedOrders = async (req, res, next) => {
+exports.getStoreCompletedOrders = async (req, res, next) => {
   try {
-    const salon = req.params.id;
-    const completed = await Booking.find({salon:salon, completedBySalon: true});
+    const store = req.params.id;
+    const completed = await Booking.find({store:store, completedByStore: true});
     console.log(completed)
     if (!completed) {
       return res.status(404).json({ message: "Completed Bookings not found" });
@@ -310,10 +311,10 @@ exports.getSalonCompletedOrders = async (req, res, next) => {
   }
 };
 
-exports.getSalonUncompletedOrders = async (req, res, next) => {
+exports.getStoreUncompletedOrders = async (req, res, next) => {
   try {
-    const salon = req.params.id;
-    const uncompleted = await Booking.find({salon:salon, completedBySalon: false});
+    const store = req.params.id;
+    const uncompleted = await Booking.find({store:store, completedByStore: false});
     console.log(uncompleted)
     if (!uncompleted) {
       return res.status(404).json({ message: "Uncompleted Bookings not found" });
@@ -332,10 +333,10 @@ exports.getSalonUncompletedOrders = async (req, res, next) => {
 
 
 
-exports.getSalonUnApprovedOrders = async (req, res, next) => {
+exports.getStoreUnApprovedOrders = async (req, res, next) => {
   try {
-    const salon = req.params.id;
-    const unapproved = await Booking.find({salon:salon, rejected: false, approved: false});
+    const store = req.params.id;
+    const unapproved = await Booking.find({store:store, rejected: false, approved: false});
     console.log(unapproved)
     if (!unapproved) {
       return res.status(404).json({ message: "unApproved Bookings not found" });

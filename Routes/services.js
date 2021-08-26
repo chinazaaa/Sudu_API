@@ -11,6 +11,6 @@ router.get("/services/:id", auth, services.findAService);
 
 router.post("/services/publish/:serviceId", auth, services.publishService);
 router.post("/services/unpublish/:serviceId", auth, services.unpublishService);
-router.get("/publishedServices/:salonId",auth,services.getPublished);
-router.get("/unpublishedServices/:salonId",auth,services.getunPublished);
+router.get("/publishedServices/:storeId",auth,services.getPublished);
+router.get("/unpublishedServices/:storeId",auth,services.getunPublished);
 module.exports = router;

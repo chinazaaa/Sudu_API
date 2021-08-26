@@ -1,6 +1,6 @@
 const bCrypt = require("bcryptjs");
-const SalonOwnerModel = require("../Models/salonOwner");
-const Salon = require("../Models/salon");
+const StoreOwnerModel = require("../Models/storeOwner");
+const Store = require("../Models/store");
 const response = require("../Utils/response");
 const random = require("../Utils/random");
 const { body, validationResult } = require("express-validator");
@@ -13,7 +13,7 @@ const CustomerModel = require("../Models/customerModel");
 //f7f9fa0af68681c789c8dadaf2da0cc1-ba042922-c4191797
 
 //  Register User  
-module.exports.registerSalon = async (req, res) => {
+module.exports.registerStore = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(422).json({ errors: errors.array().map((v) => v.msg) });
@@ -25,38 +25,39 @@ module.exports.registerSalon = async (req, res) => {
     userName,
     //location,
     address,
-    nameOfSalon,
+    nameOfStore,
+    deliveryCharge,
     email: identifier,
-    userRole = "ROL-SALON",
+    userRole = "ROL-STORE",
   } = req.body;
 
   try {
     //  Duplicate check
-    let user = await SalonOwnerModel.findOne({ identifier });
-    let customer = await CustomerModel.findOne({ identifier });
+    let user = await StoreOwnerModel.findOne({ identifier });
+    //let customer = await CustomerModel.findOne({ identifier });
 
 
-    let dup_username = await SalonOwnerModel.findOne({
-      "local.userName": userName,
-    });
+    // let dup_username = await StoreOwnerModel.findOne({
+    //   "local.userName": userName,
+    // });
 
-    if (user || customer) {
-      return response.errorResMsg(
-        res,
-        false,
-        409,
-        "Email already taken, please use another email",
-        "User already" + " exists"
-      );
-    } else if (dup_username) {
-      return response.errorResMsg(
-        res,
-        false,
-        409,
-        "Username already taken, please choose another username",
-        "Username already" + " exists"
-      );
-    }
+    // if (user || customer) {
+    //   return response.errorResMsg(
+    //     res,
+    //     false,
+    //     409,
+    //     "Email already taken, please use another email",
+    //     "User already" + " exists"
+    //   );
+    // } else if (dup_username) {
+    //   return response.errorResMsg(
+    //     res,
+    //     false,
+    //     409,
+    //     "Username already taken, please choose another username",
+    //     "Username already" + " exists"
+    //   );
+    // }
 
     password = await bCrypt.hash(password, 10);
     const otp = random.randomInt(1000, 7000);
@@ -73,7 +74,7 @@ module.exports.registerSalon = async (req, res) => {
     const config = {
       data: JSON.stringify({
         subject: "ONE TIME PASSWORD",
-        sender: "no-reply@saloney.com",
+        sender: "no-reply@sudu.com",
         recipients: [identifier],
         html_body: `<h2> Your email verification code is ${otp}</h2>`,
       }),
@@ -89,7 +90,7 @@ module.exports.registerSalon = async (req, res) => {
     console.log(await message_result.status);
     if ((await message_result.status) === 200) {
       console.log("message result is valid");
-      user = await SalonOwnerModel.create({
+      user = await StoreOwnerModel.create({
         identifier,
         local: {
           email: identifier,
@@ -97,6 +98,7 @@ module.exports.registerSalon = async (req, res) => {
           userRole,
           phone,
           userName,
+          deliveryCharge,
           otp,
 
         },
@@ -107,20 +109,23 @@ module.exports.registerSalon = async (req, res) => {
 
       user = await user.save();
       try {
-        const salonName = await Salon.findOne({ nameOfSalon });
-        if (salonName) return res.json({ message: "Salon name is taken" });
+        const storeName = await Store.findOne({ nameOfStore });
+        if (storeName) return res.json({ message: "Store name is taken" });
 
-        const salon = new Salon({
-          nameOfSalon,
+        const store = new Store({
+          nameOfStore,
           //location,
           address,
-          salonOwner: user._id,
+          storeOwner: user._id,
           phone,
+          deliveryCharge
         });
-
-        await salon.save();
-        user.local.nameOfSalon = salon.nameOfSalon;
-        user.local.location = salon.location;
+        
+        await store.save();
+        user.local.nameOfStore = store.nameOfStore;
+        user.local.location = store.location;
+        user.local.deliveryCharge = store.deliveryCharge;
+        console.log(store)
       } catch (error) {
         console.log(error);
       }

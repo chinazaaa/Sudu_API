@@ -1,11 +1,11 @@
 const express = require('express');
-const changePasswordSalon = require('../Controllers/changePasswordSalon');
+const changePasswordStore = require('../Controllers/changePasswordStore');
 const ChangePasswordCustomer = require('../Controllers/changePasswordCustomer');
 const auth = require("../Middleware/auth");
 const router = express.Router();
 
-//Salon change password route
-router.put('/salonOwner/changePassword/:id', auth, changePasswordSalon.changePasswordSalon)
+//Store change password route
+router.put('/storeOwner/changePassword/:id', auth, changePasswordStore.changePasswordStore)
 
 
 //Customer token password route

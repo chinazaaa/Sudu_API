@@ -1,28 +1,29 @@
 const Service = require("../Models/serviceModel");
 const cloudinary = require("../Utils/cloudinary");
-// const SalonOwnerModel = require("../Models/salonOwner");
-const Salon = require("../Models/salon");
+// const StoreOwnerModel = require("../Models/storeOwner");
+const Store = require("../Models/store");
 const { successResMsg } = require('../Utils/response');
 
 
 exports.createService = async (req, res) => {
   try {
      
-    const salon = await Salon.findById(req.params.id);
-    console.log(salon);
+    const store = await Store.findById(req.params.id);
+    console.log(store);
      // Upload image to cloudinary
      const result = await cloudinary.uploader.upload(req.file.path);
      console.log(result)
-    if (!salon) {
-      return res.json({ message: "Salon not found" });
+    if (!store) {
+      return res.json({ message: "Store not found" });
     }
     const service = await Service.create({
       service: req.body.service,
       description: req.body.description,
       image: result.secure_url,
       category: req.body.category,
+      options: req.body.options,
       price: req.body.price,
-      salon: salon._id,
+      store: store._id,
       cloudinary_id: result.public_id
     });
     successResMsg(
@@ -188,8 +189,8 @@ exports.findAService = async (req, res) => {
 
 exports.getPublished = async (req, res) => {
   try {
-    const salonId = req.params.salonId;
-    const published = await Service.find({salon:salonId, isPublished: true});
+    const storeId = req.params.storeId;
+    const published = await Service.find({store:storeId, isPublished: true});
     console.log(published)
     if (!published) {
       return res.status(404).json({ message: "published services not found" });
@@ -210,8 +211,8 @@ exports.getPublished = async (req, res) => {
 
 exports.getunPublished = async (req, res) => {
   try {
-    const salonId = req.params.salonId;
-    const unpublished = await Service.find({salon:salonId, isPublished: false});
+    const storeId = req.params.storeId;
+    const unpublished = await Service.find({store:storeId, isPublished: false});
     console.log(unpublished)
     if (!unpublished) {
       return res.status(404).json({ message: "published services not found" });

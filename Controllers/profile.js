@@ -1,14 +1,14 @@
 const mongoose = require("mongoose")
 const cloudinary = require("../Utils/cloudinary");
 const { successResMsg } = require("../Utils/response");
-const SalonOwner = require("../Models/salonOwner")
+const StoreOwner = require("../Models/storeOwner")
 const Customer = require("../Models/customerModel")
-const Salon = require("../Models/salon");
+const Store = require("../Models/store");
 const fs = require("fs");
 const _ = require("underscore");
 
 
-exports.updateASalonOwner = async(req, res, next) => {
+exports.updateAStoreOwner = async(req, res, next) => {
 
 let query = { $set: {} };
 
@@ -17,11 +17,11 @@ Object.keys(req.body).forEach(requestBodyKey => {
   query.$set[`local.${requestBodyKey}`] = requestBodyFieldValue;
 });
 const filter = {_id: req.params.id}
-const salonOwner = await SalonOwner.findByIdAndUpdate(filter, query, {
+const storeOwner = await StoreOwner.findByIdAndUpdate(filter, query, {
   new: true,
 })
-if (!salonOwner) {
-  return res.status(404).json({ message: 'Salon not found' })
+if (!storeOwner) {
+  return res.status(404).json({ message: 'Store not found' })
 }
 else {
   successResMsg(
@@ -29,21 +29,21 @@ else {
     true,
     "Profile Has Been Updated Successfully",
     200,
-    salonOwner
+    storeOwner
   );
 }
 }
 
 
 
-exports.updateASalon = async (req, res, next) => {
+exports.updateAStore = async (req, res, next) => {
   try {
-    const salon = await Salon.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!salon) {
-      return res.status(404).json({ message: 'Salon not found' })
+    const store = await Store.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!store) {
+      return res.status(404).json({ message: 'Store not found' })
     }
 
-    await salon.save(function (err) {
+    await store.save(function (err) {
       if (err) { return res.status(500).send({ msg: err.message }); }
       else {
         successResMsg(
@@ -51,14 +51,13 @@ exports.updateASalon = async (req, res, next) => {
           true,
           "Profile Has Been Updated Successfully",
           200,
-          salon
+          store
         );
 
       }
     });
-    // return res.json({salon})
   } catch (error) {
-    return res.status(404).json({ message: 'Salon not found' })
+    return res.status(404).json({ message: 'Store not found' })
   }
 }
 
@@ -81,8 +80,7 @@ exports.updateGallery = async (req, res) => {
   
   try {
    
-   //let profile = await Salon.findById(req.params.id);
-   const salon = mongoose.Types.ObjectId(req.params.id)
+   const store = mongoose.Types.ObjectId(req.params.id)
 
     const urls = [];
         const files = req.files;
@@ -94,7 +92,7 @@ exports.updateGallery = async (req, res) => {
         }
           req.body.image = urls.map( url => url.res )
           
-         await Salon.findByIdAndUpdate({_id: salon},req.body,{new:true,runValidators:true},(err,docs)=>{
+         await Store.findByIdAndUpdate({_id: store},req.body,{new:true,runValidators:true},(err,docs)=>{
             // if (err) console.error(err)
             // console.log(docs)
             if (err) { return res.status(500).send({ msg: err.message }); }
@@ -112,7 +110,7 @@ exports.updateGallery = async (req, res) => {
   } 
   catch (error) {
     console.log(error)
-    return res.status(404).json({ message: 'Salon not found' })
+    return res.status(404).json({ message: 'Store not found' })
   }
 }
 
@@ -142,17 +140,17 @@ exports.updateACustomer = async (req, res, next) => {
   }
 }
 
-// Get a particular salon owner profile
+// Get a particular store owner profile
 
-exports.getSalonOwner = async (req, res, next) => {
+exports.getStoreOwner = async (req, res, next) => {
   try {
-    const salonOwner = await SalonOwner.findById(req.params.id);
-    if (!salonOwner) {
-      return res.status(404).json({ message: 'Salon Owner not found' })
+    const storeOwner = await StoreOwner.findById(req.params.id);
+    if (!storeOwner) {
+      return res.status(404).json({ message: 'Store Owner not found' })
     }
-    return res.json({ salonOwner })
+    return res.json({ storeOwner })
   } catch (error) {
-    return res.status(404).json({ message: 'Salon owner not found' })
+    return res.status(404).json({ message: 'Store owner not found' })
   }
 }
 

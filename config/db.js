@@ -5,7 +5,7 @@ const { MONGOLAB_URI, API_PORT } = process.env;
 mongoose.Promise = global.Promise;
 
 try {
-  mongoose .connect('mongodb+srv://naza:yn7koxZweF7p9rpp@cluster0.gcvvq.mongodb.net/saloneydb?retryWrites=true&w=majority', {
+  mongoose.connect( 'mongodb+srv://Sudu:2UvwGy7Z7VVOLFxp@cluster0.rgmm1.mongodb.net/Sudu?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
@@ -15,7 +15,7 @@ try {
 }
 
 mongoose.connection.on("connected", () => {
-  console.log(`connected to database Naza DB`);
+  console.log(`connected to database Sudu DB`);
 });
 
 // To Remove moongoose deprecation warnings

@@ -2,7 +2,7 @@
 const bCrypt = require("bcryptjs");
 // FIXME Unused const _ = require("lodash");
 const random = require("../Utils/random");
-const SalonOwnerModel = require("../Models/salonOwner");
+const StoreOwnerModel = require("../Models/storeOwner");
 const CustomerModel = require("../Models/customerModel");
 const response = require("../Utils/response");
 // FIXME Unused  const { body, validationResult } = require("express-validator");
@@ -11,11 +11,11 @@ const {identifier} = require("./register_controller");
 const { errorResMsg, successResMsg } = require('../Utils/response');
 const brymes_mailer = require("../Utils/brymes_mailer");
 
-module.exports.forgotPasswordSalon = async (req, res) => {
+module.exports.forgotPasswordStore = async (req, res) => {
 	 
     const email = req.body.email;
    // let customer = await CustomerModel.findOne({ email });
-    let user = await SalonOwnerModel.findOne({'local.email': email });
+    let user = await StoreOwnerModel.findOne({'local.email': email });
    // console.log(user)
 
     if (!user) {
@@ -31,7 +31,7 @@ module.exports.forgotPasswordSalon = async (req, res) => {
         const config = {
             data: JSON.stringify({
                 subject: "ONE TIME PASSWORD",
-                sender: "no-reply@saloney.com",
+                sender: "no-reply@sudu.com",
                 recipients: [user.identifier],
                 html_body: `<h2> Your email verification code is ${user.local.otp}</h2>`,
             }),
@@ -51,12 +51,12 @@ module.exports.forgotPasswordSalon = async (req, res) => {
 
 }
 
-module.exports.resetPasswordSalon = async (req, res) => {
+module.exports.resetPasswordStore = async (req, res) => {
 	const { otp, newPassword } = req.body;
 
 
 	const passWord = await bCrypt.hash(newPassword, 10);
-	await SalonOwnerModel.findOne({ 'local.otp': otp }, (err, user) => {
+	await StoreOwnerModel.findOne({ 'local.otp': otp }, (err, user) => {
 
 		if (!user) {
 			return errorResMsg(res, false, 400, "User with this otp does not exist");

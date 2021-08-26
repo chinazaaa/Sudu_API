@@ -1,0 +1,12 @@
+const express = require("express");
+const store = require("../Controllers/store");
+//const storeData = require("../Controllers/finder");
+const storeData = require("../Controllers/location");
+const router = express.Router();
+const auth = require("../Middleware/auth");
+//router.get("/store", auth, store.getStores);
+router.get("/storeOwner/store/:id", auth, store.getAStore);
+router.get("/storebylocation/:lat/:long", storeData.getStoreByLocation);
+//router.get("/mapstore", auth, store.getMapStores);
+// router.get("/store/:id", auth, store.getAStorebyCustomer);
+module.exports = router;

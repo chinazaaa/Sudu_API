@@ -1,6 +1,6 @@
 var jwt = require("jsonwebtoken");
 var config = process.env;
-const SalonOwnerModel = require('../Models/salonOwner');
+const StoreOwnerModel = require('../Models/storeOwner');
 const CustomerModel = require('../Models/customerModel');
 
 const verifyToken = (req, res, next) => {
@@ -37,7 +37,7 @@ const verifyToken = (req, res, next) => {
     req.user = decoded;
     console.log(decoded);
     if (!decoded.user_role) {
-      let user = await SalonOwnerModel.findOne({ _id: req.user.id });
+      let user = await StoreOwnerModel.findOne({ _id: req.user.id });
       if (!user) {
         return res.status(401).json({
           success: false,
@@ -67,7 +67,7 @@ const verifyToken = (req, res, next) => {
           res
         );
       }
-    } else if (decoded.user_role.toLowerCase().includes("salonOnwer")) {
+    } else if (decoded.user_role.toLowerCase().includes("storeOnwer")) {
       req.user.owner_ref_id = user.owner_ref_id;
     }
     // console.log(req.user);

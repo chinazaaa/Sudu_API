@@ -2,12 +2,12 @@
 const NodeGeocoder = require('node-geocoder');
 
 const options = {
-  provider: 'google',
+  provider: process.env.GEOCODER_PROVIDER,
 
   // Optional depending on the providers
   //fetch: customFetchImplementation,
   httpAdapter: 'https',
-  apiKey: 'AIzaSyBKddnNMSLhLouaciQnjkOa6WcsmBtlANc', // for Mapquest, OpenCage, Google Premier
+  apiKey: process.env.GEOCODER_API_KEY, // for Mapquest, OpenCage, Google Premier
   formatter: null // 'gpx', 'string', ...
 };
 

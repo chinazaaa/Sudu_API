@@ -10,11 +10,11 @@ const customerSchema = new mongoose.Schema({
   password: { type: String, required: true },
   otp: { type: Number },
   userRole: { type: String, default: "ROL-CUSTOMER" },
-  salon_ref_id: { type: Schema.Types.ObjectId, ref: "salonOwner" },
+  store_ref_id: { type: Schema.Types.ObjectId, ref: "storeOwner" },
 
   avatar: {
     type: String,
-    default: "https://res.cloudinary.com/saloney/image/upload/v1623862747/SaloneyLogo.png",
+    default: "https://res.cloudinary.com/sudu/image/upload/v1629976631/sudu_logo_hh2la3.png",
     filename: String
   },
   // cloudinary_id: {

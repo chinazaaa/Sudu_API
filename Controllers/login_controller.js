@@ -2,16 +2,16 @@ const jwt = require("jsonwebtoken");
 const bCrypt = require("bcryptjs");
 var config = process.env;
 const { errorResMsg, successResMsg } = require("../Utils/response");
-const SalonOwnerModel = require("../Models/salonOwner");
+const StoreOwnerModel = require("../Models/storeOwner");
 // const services = require('../Controllers/services');
 // const { body, validationResult } = require("express-validator");
 const CustomerModel = require("../Models/customerModel");
-const Salon = require("../Models/salon");
+const Store = require("../Models/store");
 
 
 
 const userLoginType = {
-  salon: "salon",
+  store: "store",
   customer: "customer",
 };
 
@@ -22,20 +22,20 @@ const login = async (req, res, next) => {
   // let email = null;
 
   try {
-    const loginTypes = ["salon", "customer"];
+    const loginTypes = ["store", "customer"];
 
     if (!userLoginTypeChosen || !loginTypes.includes(userLoginTypeChosen)) {
       errorResMsg(
         res,
         false,
         400,
-        `query params accepts only \'customer\' or \'salon\'`,
+        `query params accepts only \'customer\' or \'store\'`,
         "Incorrect query params"
       );
     }
-    if (userLoginTypeChosen === userLoginType.salon) {
-      // user = await SalonOwnerModel.findOne({ 'local.userName': username });
-      user = await SalonOwnerModel.findOne({ "local.email": email });
+    if (userLoginTypeChosen === userLoginType.store) {
+      // user = await StoreOwnerModel.findOne({ 'local.userName': username });
+      user = await StoreOwnerModel.findOne({ "local.email": email });
       console.log(user);
       // console.log(user._id,);
 
@@ -50,7 +50,7 @@ const login = async (req, res, next) => {
       } else if (user) {
         const results = bCrypt.compareSync(
           password,
-          userLoginType.salon === userLoginTypeChosen
+          userLoginType.store === userLoginTypeChosen
             ? user.local.password
             : user.password
         );
@@ -72,8 +72,8 @@ const login = async (req, res, next) => {
           );
         else {
           console.log("pass");
-          const salonIdentifier = user._id;
-          const salon = await Salon.findOne({ salonOwner: salonIdentifier });
+          const storeIdentifier = user._id;
+          const store = await Store.findOne({ storeOwner: storeIdentifier });
           try {
             let token = jwt.sign(
               { id: user._id, user_role: user.local.userRole },
@@ -93,13 +93,13 @@ const login = async (req, res, next) => {
             console.log(error);
           }
 
-          const dataInfo = { user, salon }
+          const dataInfo = { user, store }
           successResMsg(res, true, `Login Successful`, 200, dataInfo);
         }
         //   } else if (email) {
         //     const result = bCrypt.compareSync(
         //       password,
-        //       userLoginType.salon === userLoginTypeChosen
+        //       userLoginType.store === userLoginTypeChosen
         //         ? email.local.password
         //         : email.password
         //     );
