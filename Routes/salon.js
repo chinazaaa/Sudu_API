@@ -1,0 +1,12 @@
+const express = require("express");
+const salon = require("../Controllers/salon");
+//const salonData = require("../Controllers/finder");
+const salonData = require("../Controllers/location");
+const router = express.Router();
+const auth = require("../Middleware/auth");
+//router.get("/salons", auth, salon.getSalons);
+router.get("/salonOwner/salon/:id", auth, salon.getASalon);
+router.get("/salonbylocation/:lat/:long", salonData.getSalonByLocation);
+//router.get("/mapsalon", auth, salon.getMapSalons);
+// router.get("/salon/:id", auth, salon.getASalonbyCustomer);
+module.exports = router;

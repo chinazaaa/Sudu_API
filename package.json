@@ -1,0 +1,47 @@
+{
+  "name": "saloney_api",
+  "version": "1.0.0",
+  "description": "Final year project",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "0.21.1",
+    "bcryptjs": "^2.4.3",
+    "chalk": "^4.1.0",
+    "cloudinary": "^1.26.0",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.9",
+    "express-jwt": "^6.0.0",
+    "express-mongo-sanitize": "^2.0.0",
+    "express-validator": "^6.6.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.20",
+    "mailgun-js": "^0.22.0",
+    "mongoose": "^5.10.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "node-geocoder": "^3.27.0",
+    "nodemailer-mailgun-transport": "^2.0.1",
+    "nodemon": "^2.0.4",
+    "socket.io": "^3.0.3",
+    "underscore": "^1.13.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chinazaaa/Saloney_API.git"
+  },
+  "author": "Chinaza Obiekwe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chinazaaa/Saloney_API/issues"
+  },
+  "homepage": "https://github.com/chinazaaa/Saloney_API#readme"
+}
